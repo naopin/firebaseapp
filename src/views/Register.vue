@@ -49,10 +49,10 @@ button {
 
 
 <script>
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-import { firebaseApp } from '../main';
+import * as firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
+import { firebaseApp } from "../main";
 
 export default {
   name: "Register",
@@ -69,31 +69,37 @@ export default {
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
         .then(() => {
-          
           firebaseApp
             .auth()
             .currentUser.updateProfile({ displayName: this.username });
 
-           let db = firebase.firestore();
-        db.collection("users")
-          .doc(this.email)
-          .set({
-            nick_name: this.username,
-            budget: 1000,
-          })
-          
+          firebase
+            .auth()
+            .signInWithEmailAndPassword(this.email, this.password)
+            .then(() => {
+              const userInfo = firebase.auth().currentUser;
+              let db = firebase.firestore();
+              db.collection("users")
+                .doc(userInfo.uid)
+                .set({
+                  uid: userInfo.uid,
+                  username: userInfo.displayName,
+                  balance: "1000"
+                });
+              this.$router.push("/");
+            })
+            .catch(error => {
+              alert(error.message);
+            });
+
           this.username = "";
           this.email = "";
           this.password = "";
-          this.$router.push("/");
-
         })
         .catch(error => {
           alert(error.message);
         });
     }
-   
   }
-  
 };
 </script>
