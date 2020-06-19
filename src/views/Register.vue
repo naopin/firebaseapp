@@ -82,9 +82,9 @@ export default {
               db.collection("users")
                 .doc(userInfo.uid)
                 .set({
-                  uid: userInfo.uid,
                   username: userInfo.displayName,
-                  balance: "1000"
+                  balance: "1000",
+                  uid: userInfo.uid
                 });
               this.$router.push("/");
             })
