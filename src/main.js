@@ -12,6 +12,7 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
+
 import * as firebase from "firebase/app";
 import "firebase/auth";
 

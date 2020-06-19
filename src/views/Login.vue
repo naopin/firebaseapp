@@ -47,18 +47,22 @@ export default {
         .signInWithEmailAndPassword(this.email, this.password)
         .then(() => {
           this.$router.push("/");
-          const userdata = firebase.auth().currentUser;
-          this.$store.commit('login', userdata);
-          // const userdata = firebase.auth().currentUser;
-          // console.log("アカウント作成", userdata);
         })
         .catch(error => {
           alert(error.message);
         });
       this.email = "";
       this.password = "";
+    },
+    created: function() {
+      console.log("called created at login");
+    },
+    mounted: function() {
+      console.log("called mounted at login");
+    },
+    beforeDestroy: function() {
+      console.log("called beforeDestroy at login");
     }
   }
 };
-
 </script>
